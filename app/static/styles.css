@@ -1,0 +1,20 @@
+h1{
+    color: #26373E;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #8AB0B3;
+    padding: 10px;
+    text-align: center;
+}
+
+body{
+    background-color: #BAD5DE;
+}
+
+a {
+    text-decoration: none;
+    color: #007bffaf;
+}
+a:hover {
+    color: #0056b3;
+}
