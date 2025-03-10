@@ -1,16 +1,14 @@
-import os
+import os, sys
 from alembic import context
 from dotenv import load_dotenv
-from models import Base
-
-load_dotenv()
-
-DATABASE_URL = os.getenv("DATABASE_URL")
-
-if not DATABASE_URL:
-    raise ValueError("Where is your DATABASE_URL?")
+current_dir = os.path.dirname(os.path.abspath(__file__))
+app_dir = os.path.dirname(current_dir)
+sys.path.append(app_dir)
+from models import News
+from urllib.parse import urlparse
 
 config = context.config
-config.set_main_option("sqlalchemy.url", DATABASE_URL)
-
-target_metadata = Base.metadata
+load_dotenv()
+tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
+config.set_main_option("sqlalchemy.url", f"postgresql+asyncpg://{tmpPostgres.username}:{tmpPostgres.password}@{tmpPostgres.hostname}{tmpPostgres.path}?ssl=require")
+target_metadata = News.metadata

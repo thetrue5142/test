@@ -5,15 +5,28 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from app.database import SessionLocal, News
-import os
+from app.database import SessionLocal
+from app.models import News
+from app.scrape import fetch_udn_news
+from contextlib import asynccontextmanager
+import asyncio
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    async def background_update():
+        while True:
+            await fetch_udn_news()
 
-app.mount("/static/templates", StaticFiles(directory="app/templates"), name="static_templates")
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
+    task = asyncio.create_task(background_update())
+    yield
+    task.cancel()
 
-async def get_db():
+app = FastAPI(lifespan=lifespan)
+
+app.mount("/static/templates", StaticFiles(directory="../app/templates"), name="static_templates")
+app.mount("/static", StaticFiles(directory="../app/static"), name="static")
+
+async def get_db() -> AsyncSession:
     async with SessionLocal() as session:
         yield session
 
@@ -25,4 +38,4 @@ async def get_news(db: AsyncSession = Depends(get_db)):
 
 @app.get("/")
 async def serve_index():
-    return FileResponse("app/templates/index.html")
+    return FileResponse("../app/templates/index.html")

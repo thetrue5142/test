@@ -7,8 +7,15 @@ h1{
     text-align: center;
 }
 
-body{
-    background-color: #BAD5DE;
+footer {
+    background-color: rgb(22, 82, 107);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size: 14px;
 }
 
 a {
@@ -17,4 +24,52 @@ a {
 }
 a:hover {
     color: #0056b3;
+}
+
+body {
+    background-color: #BAD5DE;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    height: 80vh;
+}
+
+.news-list {
+    flex: 2;
+    border-right: 2px solid #ddd;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #f4f4f4;
+}
+
+.news-list a {
+    display: block;
+    margin: 10px 0;
+    color: #007bffaf;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.news-list a:hover {
+    color: #0056b3;
+}
+
+.news-detail {
+    flex: 8;
+    padding: 20px;
+    background-color: #fff;
+    overflow-y: auto;
+}
+
+.news-detail h2 {
+    font-size: 24px;
+}
+
+.news-detail p {
+    font-size: 18px;
+    line-height: 1.6;
 }
