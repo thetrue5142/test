@@ -29,6 +29,7 @@ a:hover {
 body {
     background-color: #BAD5DE;
     font-family: Arial, sans-serif;
+    height: 100%;
     margin: 0;
     padding: 0;
 }
@@ -63,6 +64,7 @@ body {
     padding: 20px;
     background-color: #fff;
     overflow-y: auto;
+    overflow: hidden;
 }
 
 .news-detail h2 {

@@ -25,7 +25,8 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-#app.mount("/static/templates", StaticFiles(directory="../app/templates"), name="static_templates")
+app.mount("/static/templates", StaticFiles(directory="./templates"), name="static_templates")
+app.mount("/static", StaticFiles(directory="./static"), name="static")
 
 async def get_db() -> AsyncSession:
     session = SessionLocal()
@@ -42,4 +43,4 @@ async def get_news(db: AsyncSession = Depends(get_db)):
 
 @app.get("/")
 async def serve_index():
-    return FileResponse("../app/templates/index.html")
+    return FileResponse("./templates/index.html")

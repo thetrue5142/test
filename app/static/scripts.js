@@ -5,7 +5,7 @@ async function fetchNews() {
     let detail = document.getElementById("news-detail");
 
     list.innerHTML = "";
-    detail.innerHTML = "<p>Work in Progress...</p>";
+    detail.innerHTML = "<p><<< Select News</p>";
 
     news.forEach(n => {
         let newsItem = document.createElement("a");
@@ -20,16 +20,8 @@ async function fetchNews() {
 }
 
 async function showNewsDetail(link) {
-    let response = await fetch(`/get_news_detail?link=${encodeURIComponent(link)}`);
-    let data = await response.json();
-    
     let detail = document.getElementById("news-detail");
-    if (data.content) {
-        detail.innerHTML = data.content;
-    } else {
-        detail.innerHTML = "<p>error</p>";
-    }
+    detail.innerHTML = `<iframe src="${link}" width="100%" height="600px" style="border:none;"></iframe>`;
 }
-
 
 fetchNews();
