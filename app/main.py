@@ -25,7 +25,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-app.mount("/static/templates", StaticFiles(directory="../app/templates"), name="static_templates")
+#app.mount("/static/templates", StaticFiles(directory="../app/templates"), name="static_templates")
 
 async def get_db() -> AsyncSession:
     session = SessionLocal()
