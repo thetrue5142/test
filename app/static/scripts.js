@@ -20,12 +20,16 @@ async function fetchNews() {
 }
 
 async function showNewsDetail(link) {
-    let response = await fetch(link);
-    let text = await response.text();
+    let response = await fetch(`/get_news_detail?link=${encodeURIComponent(link)}`);
+    let data = await response.json();
     
     let detail = document.getElementById("news-detail");
-    detail.innerHTML = "<p>新聞內容正在載入...</p>";
-    detail.innerHTML = text;
+    if (data.content) {
+        detail.innerHTML = data.content;
+    } else {
+        detail.innerHTML = "<p>error</p>";
+    }
 }
+
 
 fetchNews();

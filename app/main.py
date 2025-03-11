@@ -15,7 +15,9 @@ import asyncio
 async def lifespan(app: FastAPI):
     async def background_update():
         while True:
-            await fetch_udn_news()
+            async with SessionLocal() as session:
+                await fetch_udn_news(session)
+            await asyncio.sleep(60)
 
     task = asyncio.create_task(background_update())
     yield
@@ -27,8 +29,11 @@ app.mount("/static/templates", StaticFiles(directory="../app/templates"), name="
 app.mount("/static", StaticFiles(directory="../app/static"), name="static")
 
 async def get_db() -> AsyncSession:
-    async with SessionLocal() as session:
+    session = SessionLocal()
+    try:
         yield session
+    finally:
+        await session.close()
 
 @app.get("/news")
 async def get_news(db: AsyncSession = Depends(get_db)):
